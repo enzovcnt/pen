@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PenController!{% endblock %}
+
+{% block body %}
+
+    {% for pen in pens %}
+        <div style="border: 2px solid black">
+            <p>{{ pen.name }}</p>
+            <p>{{ pen.price }} $</p>
+            <a href="{{ path('app_pen', {id:pen.id}) }}">Voir</a>
+            <a href="{{ path('app_pen_edit', {id:pen.id}) }}">Changer</a>
+            <a href="{{ path('app_pen_delete', {id:pen.id}) }}">Supprimer</a>
+        </div><br>
+    {% endfor %}
+
+{% endblock %}
