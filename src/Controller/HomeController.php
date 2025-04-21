@@ -16,3 +16,4 @@ final class HomeController extends AbstractController
         ]);
     }
 }
+//commentaire > choix du matériau > enregistrement > privilège admin et urilisateur > changer selon les privilèges ou pas

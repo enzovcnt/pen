@@ -7,6 +7,20 @@
     <p>{{ pen.price }}</p>
     <a href="{{ path('app_pens')}}">Retour</a>
 
+    {{ form_start(formComment) }}
+    {{ form_widget(formComment.contentComment) }}
+    <button type="submit">Send</button>
+    {{ form_end(formComment) }}
+
+
+
+    {% for comment in pen.comments %}
+
+        <p>At : {{ comment.time|date("m/d") }}</p>
+        <p><strong>{{ comment.contentComment }}</strong></p>
+
+    {% endfor %}
+
 
 
 {% endblock %}

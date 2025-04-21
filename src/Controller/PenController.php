@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Pen;
+use App\Form\CommentType;
 use App\Form\PenType;
 use App\Repository\PenRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,11 +42,29 @@ final class PenController extends AbstractController
     }
 
     #[Route('/pen/{id}', name: 'app_pen')]
-    public function show(Pen $pen): Response
+    public function show(Pen $pen, Request $request, EntityManagerInterface $manager): Response
     {
+        if(!$pen)
+        {
+            return $this->redirectToRoute('app_pens');
+        }
+
+        $comments = new Comment();
+        $formComment = $this->createForm(CommentType::class, $comments);
+        $formComment->handleRequest($request);
+        if($formComment->isSubmitted() && $formComment->isValid()){
+            $comments->setTime(new \DateTime());
+            $comments->setContent($pen);
+            $manager->persist($comments);
+            $manager->flush();
+            return $this->redirectToRoute('app_pen', ['id' => $pen->getId()]);
+        }
+
 
         return $this->render('pen/show.html.twig', [
             'pen' => $pen,
+            'formComment' => $formComment->createView(),
+            'comments' => $comments,
         ]);
     }
 
