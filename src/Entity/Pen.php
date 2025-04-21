@@ -28,6 +28,10 @@ class Pen
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'content', orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'pens')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Material $material = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -88,6 +92,18 @@ class Pen
                 $comment->setContent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): static
+    {
+        $this->material = $material;
 
         return $this;
     }

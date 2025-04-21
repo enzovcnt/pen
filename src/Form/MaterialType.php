@@ -3,30 +3,23 @@
 namespace App\Form;
 
 use App\Entity\Material;
-use App\Entity\Pen;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PenType extends AbstractType
+class MaterialType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('price')
-            ->add('material', EntityType::class, [
-        'class' => Material::class,
-        'choice_label' => 'name',
-    ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pen::class,
+            'data_class' => Material::class,
         ]);
     }
 }
