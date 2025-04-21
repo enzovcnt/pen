@@ -3,31 +3,26 @@
 namespace App\Form;
 
 use App\Entity\Image;
-use App\Entity\Material;
-use App\Entity\Pen;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PenType extends AbstractType
+class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('price')
-            ->add('material', EntityType::class, [
-        'class' => Material::class,
-        'choice_label' => 'name',
-    ]);
+            ->add('imageFile', VichImageType::class, [])
+            ->add('imageName')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pen::class,
+            'data_class' => Image::class,
         ]);
     }
 }

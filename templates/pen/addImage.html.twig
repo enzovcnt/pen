@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(formImage) }}
+    {{ form_row(formImage.imageName) }}
+    {{ form_row(formImage.imageFile) }}
+    {{ form_end(formImage) }}
+
+
+{% endblock %}

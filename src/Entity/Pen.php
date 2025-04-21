@@ -32,9 +32,16 @@ class Pen
     #[ORM\JoinColumn(nullable: false)]
     private ?Material $material = null;
 
+    /**
+     * @var Collection<int, Image>
+     */
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'pen')]
+    private Collection $images;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,6 +111,36 @@ class Pen
     public function setMaterial(?Material $material): static
     {
         $this->material = $material;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setPen($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getPen() === $this) {
+                $image->setPen(null);
+            }
+        }
 
         return $this;
     }

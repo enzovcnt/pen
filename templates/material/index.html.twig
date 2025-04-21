@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MaterialController!{% endblock %}
+
+{% block body %}
+
+
+    <ul class="list-group">
+        {% for material in materials %}
+            <li class="list-group-item">{{ material.id }} : {{ material.name }}</li>
+        {% endfor %}
+
+    </ul>
+
+    {{ form_start(formMat) }}
+    {{ form_row(formMat.name) }}
+    <button type="submit">Send</button>
+    {{ form_end(formMat) }}
+
+
+{% endblock %}

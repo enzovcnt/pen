@@ -2,6 +2,10 @@
 
 {% block body %}
 
+    {% for image in pen.images %}
+        <img src="{{ vich_uploader_asset(image, 'imageFile') }}" style="height:50vh" alt="...">
+
+    {% endfor %}
 
     <p>{{ pen.name }}</p>
     <p>{{ pen.price }}</p>

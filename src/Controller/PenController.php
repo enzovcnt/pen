@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Pen;
 use App\Form\CommentType;
+use App\Form\ImageType;
 use App\Form\PenType;
 use App\Repository\PenRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,5 +94,23 @@ public function delete(Pen $pen, EntityManagerInterface $manager): Response{
         }
 
         return $this->redirectToRoute('app_pens', ['id' => $pen->getId()]);
+    }
+
+    #[Route('/pen/image', name: 'app_pen_image')]
+    public function addImage(Pen $pen, Request $request, EntityManagerInterface $manager): Response{
+        $image = new Image();
+
+        $form = $this->createForm(ImageType::class, $image);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $image->setPen($pen);
+            $manager->persist($pen);
+            $manager->flush();
+            return $this->redirectToRoute('app_pen_image');
+        }
+        return $this->render('pen/image.html.twig', [
+            'pen' => $pen,
+            'formImage' => $form->createView(),
+        ]);
     }
 }
